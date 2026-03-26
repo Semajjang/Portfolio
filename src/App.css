@@ -1640,10 +1640,20 @@ section {
   gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
+.project-card.modern-card .project-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #64ffda #222;
+  background-clip: padding-box;
 }
 
-  .project-card.modern-card .project-content p {
-
+.project-card.modern-card .project-content p {
   overflow-wrap: break-word;
   word-break: break-word;
   margin-bottom: 1rem;
@@ -1678,61 +1688,10 @@ section {
   background: transparent;
 }
 
-.project-card.modern-card .project-content p::-webkit-scrollbar {
-  width: 8px;
-  background: transparent;
-  border-radius: 6px;
-}
-.project-card.modern-card .project-content p::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #222 0%, #64ffda 100%);
-  border-radius: 6px;
-  min-height: 24px;
-  box-shadow: 0 2px 6px rgba(100,255,218,0.18);
-  border: 2px solid #181c1f;
-}
-.project-card.modern-card .project-content p::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #64ffda 0%, #222 100%);
-  border: 2px solid #23272b;
-}
-.project-card.modern-card .project-content p::-webkit-scrollbar-corner {
-  background: transparent;
-
-  .project-card.modern-card .project-content p::-webkit-scrollbar {
-    width: 8px;
-    background: transparent;
-    border-radius: 6px;
-  }
-  .project-card.modern-card .project-content p::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #222 0%, #64ffda 100%);
-    border-radius: 6px;
-    min-height: 24px;
-    box-shadow: 0 2px 6px rgba(100,255,218,0.18);
-    border: 2px solid #181c1f;
-  }
-  .project-card.modern-card .project-content p::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #64ffda 0%, #222 100%);
-    border: 2px solid #23272b;
-  }
-  .project-card.modern-card .project-content p::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-  }
-
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
   .project-card.modern-card .project-content p {
     max-height: 4.5em;
   }
-  }
-  position: relative;
-  z-index: 1;
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: 1rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: #64ffda #222;
-  background-clip: padding-box;
 }
 
 .project-card.modern-card .project-content::-webkit-scrollbar {
@@ -1756,7 +1715,6 @@ section {
   .project-card.modern-card .project-content {
     max-height: 220px;
   }
-}
 }
 
 .project-card.modern-card .project-content h3 {

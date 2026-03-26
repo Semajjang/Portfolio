@@ -2,19 +2,19 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import { gsap } from 'gsap'
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
   ExternalLink,
   Code,
   Palette,
   Database,
   Globe,
-  User, 
-  Briefcase, 
+  User,
+  Briefcase,
   Award,
   Brain,
   Monitor,
@@ -24,6 +24,23 @@ import TextType from './components/TextType'
 import MagnetLines from './components/MagnetLines'
 import Dock from './components/Dock'
 import DecryptedText from './components/DecryptedText'
+import SpotlightCard from './components/SpotlightCard'
+import ScrambledText from './components/ScrambledText'
+import { CareerTimeline } from './components/CareerTimeline'
+import PetchinguImage from './assets/petchingu.png';
+import EcommerceImage from './assets/GraphTrust-pic.png';
+import EnrollmentImage from './assets/enrollment.png';
+import MyAptImage from './assets/myapt.png';
+import CompVisionImage from './assets/compvision.png';
+import ChatbotImage from './assets/petnutribot.png';
+import HeartRiskImage from './assets/heartrisk.png';
+import Loader from './components/Loader';
+import Certificates from './components/Certificates';
+import ProfileImage from './assets/me.jpg';
+import TechStack from './components/TechStack';
+import { debugMobileView } from './debug-mobile';
+import { useMobileDetection } from './mobile-detection';
+import { validateEmail, validateFormData, sanitizeFormData, checkRateLimit } from './utils/validation';
 import './App.css'
 
 /* Neon ripple effect for getResume button */
@@ -66,23 +83,6 @@ if (typeof document !== 'undefined' && !document.getElementById('neon-ripple-sty
   style.innerHTML = neonRippleStyle;
   document.head.appendChild(style);
 }
-import SpotlightCard from './components/SpotlightCard'
-import ScrambledText from './components/ScrambledText'
-import { CareerTimeline } from './components/CareerTimeline'
-import PetchinguImage from './assets/petchingu.png';
-import EcommerceImage from './assets/GraphTrust-pic.png';
-import EnrollmentImage from './assets/enrollment.png';
-import MyAptImage from './assets/myapt.png';
-import CompVisionImage from './assets/compvision.png';
-import ChatbotImage from './assets/petnutribot.png'; 
-import HeartRiskImage from './assets/heartrisk.png';
-import Loader from './components/Loader';
-import Certificates from './components/Certificates';
-import ProfileImage from './assets/me.jpg';
-import TechStack from './components/TechStack';
-import { debugMobileView } from './debug-mobile';
-import { useMobileDetection } from './mobile-detection';
-import { validateFormData, sanitizeFormData, checkRateLimit } from './utils/validation';
 
 // Custom hook for modern project card animations
 const useProjectAnimations = () => {
@@ -245,6 +245,7 @@ function App() {
     name: '',
     email: '',
     subject: '',
+    projectDetails: '',
     message: '',
     projectType: '',
     budget: '',
@@ -270,6 +271,30 @@ function App() {
     console.log('App component mounted');
     // console.log('ReadMyFaceImage imported:', !!ReadMyFaceImage); // Removed undefined reference
   }, []);
+
+  useEffect(() => {
+    const sectionIds = ['about', 'projects', 'skills', 'contact']
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3
+      let currentSection = 'about'
+
+      for (const id of sectionIds) {
+        const section = document.getElementById(id)
+
+        if (section && scrollPosition >= section.offsetTop) {
+          currentSection = id
+        }
+      }
+
+      setActiveSection(currentSection)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Trigger initial animation for current category
   useEffect(() => {
@@ -391,13 +416,25 @@ function App() {
   }
 
   const handleFormInput = (field, value) => {
-    // Sanitize input in real-time
-    const sanitizedValue = value.trim()
-    setFormData(prev => ({ ...prev, [field]: sanitizedValue }))
+    const nextValue = field === 'email' ? value.replace(/\s+/g, '') : value
+    setFormData(prev => ({ ...prev, [field]: nextValue }))
     
     // Clear specific field error when user starts typing
     if (formErrors[field]) {
       setFormErrors(prev => ({ ...prev, [field]: '' }))
+    }
+  }
+
+  const handleEmailBlur = () => {
+    if (!formData.email) {
+      return
+    }
+
+    if (!validateEmail(formData.email)) {
+      setFormErrors(prev => ({
+        ...prev,
+        email: 'Please enter a valid email address'
+      }))
     }
   }
 
@@ -460,6 +497,7 @@ function App() {
       projectType: sanitizedData.projectType,
       timeline: sanitizedData.timeline,
       budget: sanitizedData.budget,
+      projectDetails: sanitizedData.projectDetails,
       message: sanitizedData.message
     }
     
@@ -581,27 +619,27 @@ function App() {
       {/* Dock Navigation */}
       <Dock 
         items={[
-          { 
-            icon: <User size={20} />, 
-            label: 'About Me', 
+          {
+            icon: <User size={20} />,
+            label: 'About Me',
             onClick: () => scrollToSection('about'),
             className: activeSection === 'about' ? 'active' : ''
           },
-          { 
-            icon: <Briefcase size={20} />, 
-            label: 'Work', 
+          {
+            icon: <Briefcase size={20} />,
+            label: 'Projects',
             onClick: () => scrollToSection('projects'),
             className: activeSection === 'projects' ? 'active' : ''
           },
-          { 
-            icon: <Award size={20} />, 
-            label: 'Experience', 
+          {
+            icon: <Award size={20} />,
+            label: 'Skills',
             onClick: () => scrollToSection('skills'),
             className: activeSection === 'skills' ? 'active' : ''
           },
-          { 
-            icon: <Mail size={20} />, 
-            label: 'Contact', 
+          {
+            icon: <Mail size={20} />,
+            label: 'Contact',
             onClick: () => scrollToSection('contact'),
             className: activeSection === 'contact' ? 'active' : ''
           }
@@ -1441,6 +1479,11 @@ function App() {
                         placeholder="Your Email" 
                         value={formData.email}
                         onChange={(e) => handleFormInput('email', e.target.value)}
+                        onBlur={handleEmailBlur}
+                        inputMode="email"
+                        autoComplete="email"
+                        pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+                        title="Please enter a valid email address without spaces"
                         required 
                       />
                       {formErrors.email && <span className="form-error">{formErrors.email}</span>}
@@ -1466,7 +1509,7 @@ function App() {
                         style={isMobile ? { width: '100%' } : {}}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        disabled={!formData.name || !formData.email || !formData.subject}
+                        disabled={!formData.name || !formData.email || !formData.subject || !validateEmail(formData.email)}
                       >
                         Next Step
                       </motion.button>
@@ -1499,15 +1542,15 @@ function App() {
                         <option value="other">Other</option>
                       </select>
                     </div>
-                    <div className={`form-group ${formErrors.message ? 'error' : ''}`}>
+                    <div className={`form-group ${formErrors.projectDetails ? 'error' : ''}`}>
                       <textarea 
                         placeholder="Describe your project requirements..." 
                         rows="4"
-                        value={formData.message}
-                        onChange={(e) => handleFormInput('message', e.target.value)}
+                        value={formData.projectDetails}
+                        onChange={(e) => handleFormInput('projectDetails', e.target.value)}
                         required
                       />
-                      {formErrors.message && <span className="form-error">{formErrors.message}</span>}
+                      {formErrors.projectDetails && <span className="form-error">{formErrors.projectDetails}</span>}
                     </div>
                     <div className="form-actions" style={isMobile ? {
                       display: 'flex',
@@ -1530,7 +1573,7 @@ function App() {
                         style={isMobile ? { width: '100%' } : {}}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        disabled={!formData.projectType || !formData.message}
+                        disabled={!formData.projectType || !formData.projectDetails}
                       >
                         Next Step
                       </motion.button>
@@ -1640,10 +1683,16 @@ function App() {
                         <strong>Project:</strong> {formData.projectType}
                       </div>
                       <div className="summary-item">
+                        <strong>Project Details:</strong> {formData.projectDetails}
+                      </div>
+                      <div className="summary-item">
                         <strong>Timeline:</strong> {formData.timeline}
                       </div>
                       <div className="summary-item">
                         <strong>Budget:</strong> {formData.budget}
+                      </div>
+                      <div className="summary-item">
+                        <strong>Additional Message:</strong> {formData.message}
                       </div>
                     </div>
                     <div className="form-actions" style={isMobile ? {
@@ -1760,7 +1809,7 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>if you made it this far, you deserve a cookie</p>
+          <p>Thank you for reading my Portfolio!</p>
         </div>
       </footer>
     </div>

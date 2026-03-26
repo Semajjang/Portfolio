@@ -88,13 +88,18 @@ export const validateFormData = (formData) => {
     errors.subject = 'Subject must be 3-100 characters long'
   }
   
+  // Validate project details
+  if (!validateMessage(formData.projectDetails)) {
+    errors.projectDetails = 'Project details must be 10-2000 characters long'
+  }
+  
   // Validate message
   if (!validateMessage(formData.message)) {
     errors.message = 'Message must be 10-2000 characters long'
   }
   
   // Validate project type (if provided)
-  if (formData.projectType && !['Web Development', 'Mobile App', 'AI/ML Project', 'Data Analysis', 'Other'].includes(formData.projectType)) {
+  if (formData.projectType && !['web-development', 'mobile-app', 'machine-learning', 'data-analysis', 'consultation', 'other'].includes(formData.projectType)) {
     errors.projectType = 'Please select a valid project type'
   }
   
@@ -110,6 +115,7 @@ export const sanitizeFormData = (formData) => {
     name: sanitizeInput(formData.name),
     email: sanitizeInput(formData.email),
     subject: sanitizeInput(formData.subject),
+    projectDetails: sanitizeInput(formData.projectDetails),
     message: sanitizeInput(formData.message),
     projectType: sanitizeInput(formData.projectType),
     timeline: sanitizeInput(formData.timeline),
