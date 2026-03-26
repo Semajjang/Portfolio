@@ -1,0 +1,215 @@
+/* Mobile fixes that bypass Vite's CSS processing */
+@media (max-width: 768px) {
+  /* Force mobile timeline display */
+  .mobile-timeline {
+    display: block !important;
+    width: 100% !important;
+    padding: 1rem 0 !important;
+  }
+  
+  .mobile-timeline .timeline-cards {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    width: 100% !important;
+  }
+  
+  .mobile-timeline .timeline-card {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    min-height: 120px !important;
+  }
+  
+  .mobile-timeline .timeline-card-content {
+    padding: 0 1rem !important;
+    overflow: hidden !important;
+    max-height: 500px !important;
+  }
+  
+  .mobile-timeline .timeline-card-image {
+    margin: 1rem 0 !important;
+  }
+  
+  .mobile-timeline .timeline-card-image img {
+    height: 120px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+  }
+  
+  .mobile-timeline .timeline-card-description {
+    font-size: 0.95rem !important;
+    color: #a0a0a0 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  /* Force stepper form mobile layout */
+  .stepper-progress {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  .stepper-progress::before {
+    display: none !important;
+  }
+  
+  .stepper-step {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1rem !important;
+    text-align: left !important;
+  }
+  
+  .step-label {
+    font-size: 0.9rem !important;
+  }
+  
+  .form-actions {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .form-actions .btn {
+    width: 100% !important;
+  }
+  
+  /* Force mobile layout overrides */
+  .hero-content {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: clamp(1.5rem, 3vw, 2rem) !important;
+    padding: 0 clamp(1rem, 4vw, 2rem) !important;
+  }
+  
+  .about-content {
+    grid-template-columns: 1fr !important;
+    gap: clamp(1.5rem, 3vw, 2rem) !important;
+    min-height: auto !important;
+    text-align: center !important;
+  }
+  
+  .contact-content {
+    grid-template-columns: 1fr !important;
+    gap: clamp(1.5rem, 3vw, 2rem) !important;
+  }
+  
+  .skills-content {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
+  /* Hide background elements on mobile */
+  .background-container,
+  .magnet-lines-bg,
+  .magnetLines-container {
+    display: none !important;
+  }
+  
+  /* Dock mobile fixes */
+  .dock-outer {
+    position: fixed !important;
+    bottom: 1rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    max-width: calc(100vw - 2rem) !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  .dock-panel {
+    position: fixed !important;
+    bottom: 1rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: fit-content !important;
+    max-width: calc(100vw - 2rem) !important;
+    gap: 0.5rem !important;
+    padding: 0.25rem !important;
+    z-index: 1000 !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 60px !important;
+    display: flex !important;
+  }
+  
+  .dock-item {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  .dock-item:active {
+    transform: scale(0.95) !important;
+    background-color: rgba(100, 255, 218, 0.2) !important;
+  }
+  
+  .dock-label {
+    display: none !important;
+  }
+  
+  .dock-icon {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .dock-outer {
+    bottom: 0.75rem !important;
+    max-width: calc(100vw - 1rem) !important;
+  }
+  
+  .dock-panel {
+    width: fit-content !important;
+    max-width: calc(100vw - 1rem) !important;
+    gap: 0.25rem !important;
+    padding: 0.25rem !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+    align-items: center !important;
+    bottom: 0.75rem !important;
+  }
+  
+  .dock-item {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .dock-icon {
+    font-size: 1.1rem !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .dock-panel {
+    gap: 0.125rem !important;
+    padding: 0.125rem !important;
+  }
+  
+  .dock-item {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  .dock-icon {
+    font-size: 1rem !important;
+  }
+} 

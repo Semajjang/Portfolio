@@ -1,0 +1,37 @@
+.magnetLines-container {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
+
+  justify-items: center;
+  align-items: center;
+
+  width: 80vmin;
+  height: 80vmin;
+}
+
+.magnetLines-container span {
+  display: block;
+  transform-origin: center;
+  will-change: transform;
+  transform: rotate(var(--rotate));
+  opacity: 0.4;
+  background-color: #ffffff !important;
+}
+
+/* Mobile optimizations for magnet lines */
+@media (max-width: 768px) {
+  .magnetLines-container {
+    display: none !important;
+  }
+  
+  /* Ensure background container is properly hidden on mobile */
+  .magnet-lines-bg {
+    display: none !important;
+  }
+  
+  /* Alternative mobile background */
+  .background-container {
+    display: none !important;
+  }
+} 

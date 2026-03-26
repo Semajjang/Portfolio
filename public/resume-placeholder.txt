@@ -1,0 +1,6 @@
+Resume placeholder
+
+Replace this file with your actual resume later.
+Suggested path: public/resume-placeholder.txt or update the download logic in src/App.jsx.
+
+Name: Nathaniel James C. Carrillo
