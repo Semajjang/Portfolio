@@ -36,7 +36,7 @@ export const validateSubject = (subject) => {
 
 // Validate message content
 export const validateMessage = (message) => {
-  if (!message || typeof message !== 'string') return false
+  if (!message || typeof message !== 'string' || message.trim() === '') return true // Optional: valid if empty
   const trimmed = message.trim()
   return trimmed.length >= 10 && trimmed.length <= 2000
 }
@@ -94,7 +94,7 @@ export const validateFormData = (formData) => {
   }
   
   // Validate message
-  if (!validateMessage(formData.message)) {
+  if (formData.message && formData.message.trim() !== '' && !validateMessage(formData.message)) {
     errors.message = 'Message must be 10-2000 characters long'
   }
   
